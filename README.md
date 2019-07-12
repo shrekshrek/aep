@@ -6,10 +6,10 @@ AE工作流套装，包含输出部分，运行部分。
 AEP = 复杂的3d mg线性动画 + 灵活的程序控制  
   
 demo地址:(建议手机浏览)  
-http://shrek.imdevsh.com/demo/aep/aep&bokeh.html  
+https://shrek.imdevsh.com/demo/aep/aep&bokeh.html  
 (该案例展示了一些常规用法，变速播放，倒放，左右摇摆手机以及点击其中一些圆形小元素都有交互反应等)  
 
-http://shrek.imdevsh.com/show/msg2018/  
+https://shrek.imdevsh.com/show/msg2018/  
 (该案例展示了使用ae面片搭建大型场景的可能)  
 
 除了以上演示，还有长时间轴拖放控制等都可以轻松实现，相比视频或者flash 2d动画，3d mg在维度上给了动画更多表现空间，交互上多了更多玩法。制作上，让动画和程序可以分拆并让各自发挥最大效能，显著提高了制作效率和质量。  
