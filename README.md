@@ -12,6 +12,9 @@ https://shrek.imdevsh.com/demo/aep/aep&bokeh.html
 https://shrek.imdevsh.com/show/msg2018/  
 (该案例展示了使用ae面片搭建大型场景的可能)  
 
+https://shrek.imdevsh.com/show/baibaoshu/  
+(该案例展示了多场景素材组合)  
+
 除了以上演示，还有长时间轴拖放控制等都可以轻松实现，相比视频或者flash 2d动画，3d mg在维度上给了动画更多表现空间，交互上多了更多玩法。制作上，让动画和程序可以分拆并让各自发挥最大效能，显著提高了制作效率和质量。  
 
 
