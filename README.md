@@ -15,6 +15,9 @@ https://shrek.imdevsh.com/show/msg2018/
 https://shrek.imdevsh.com/show/baibaoshu/  
 (该案例展示了多场景素材组合)  
 
+https://shrek.imdevsh.com/show/tmall/  
+(天猫邀请函，该案例非aep制作，不过是此项目的启发点，留档查看用)  
+
 除了以上演示，还有长时间轴拖放控制等都可以轻松实现，相比视频或者flash 2d动画，3d mg在维度上给了动画更多表现空间，交互上多了更多玩法。制作上，让动画和程序可以分拆并让各自发挥最大效能，显著提高了制作效率和质量。  
 
 
