@@ -1,0 +1,235 @@
+<!DOCTYPE HTML>
+<head>
+    <title>aep demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+        body {
+            margin: 0px;
+        }
+
+        canvas {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+        }
+
+        #preload {
+            position: absolute;
+            z-index: 100;
+            left: 50%;
+            top: 50%;
+            width: 400px;
+            height: 100px;
+            line-height: 100px;
+            font-size: 40px;
+            margin: -50px 0 0 -200px;
+            text-align: center;
+            color: #fc0f08;
+        }
+
+        .btn {
+            position: absolute;
+            z-index: 100;
+            bottom: 0px;
+            width: 60px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            font-size: 14px;
+            color: #fc0f08;
+            background: #fff;
+            opacity: 0.6;
+        }
+
+        #play {
+            left: 50%;
+            margin: 0 0 0 -170px;
+        }
+
+        #pause {
+            left: 50%;
+            margin: 0 0 0 -100px;
+        }
+
+        #reverse {
+            left: 50%;
+            margin: 0 0 0 -30px;
+        }
+
+        #x1 {
+            left: 50%;
+            margin: 0 0 0 40px;
+        }
+
+        #x2 {
+            left: 50%;
+            margin: 0 0 0 110px;
+        }
+
+        #bar {
+            position: absolute;
+            z-index: 100;
+            bottom: 0px;
+            left: 0px;
+            height: 4px;
+            width: 0%;
+            background: #fff;
+        }
+
+        #speed {
+            position: absolute;
+            z-index: 100;
+            top: 0px;
+            right: 0px;
+            width: 60px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            font-size: 24px;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<div id="preload">0%</div>
+<div id="play" class="btn">Play</div>
+<div id="pause" class="btn">Pause</div>
+<div id="reverse" class="btn">Reverse</div>
+<div id="x1" class="btn">-0.5x</div>
+<div id="x2" class="btn">+0.5x</div>
+<div id="speed">1x</div>
+<div id="bar"></div>
+
+<script src="js/three.min.js"></script>
+<script src="js/stats.min.js"></script>
+<script src="../player/build/aep.js"></script>
+<script>
+    var loadTxt = document.querySelector('#preload');
+    var btnPlay = document.querySelector('#play');
+    var btnPause = document.querySelector('#pause');
+    var btnReverse = document.querySelector('#reverse');
+    var btn1X = document.querySelector('#x1');
+    var btn2X = document.querySelector('#x2');
+    var speedTxt = document.querySelector('#speed');
+    var bar = document.querySelector('#bar');
+
+    btnPlay.addEventListener('touchend', function () {
+        if (comp) {
+            if (comp.curTime < 0 || comp.curTime > comp.totalTime) comp.play(0);
+            else comp.play();
+        }
+    });
+    btnPause.addEventListener('touchend', function () {
+        if (comp) comp.pause();
+    });
+    btnReverse.addEventListener('touchend', function () {
+        if (comp) {
+            if (comp.curTime < 0 || comp.curTime > comp.totalTime) comp.reverse(comp.totalTime);
+            else comp.reverse();
+        }
+    });
+    btn1X.addEventListener('touchend', function () {
+        if (comp) {
+            comp.timeScale = Math.max(-2, comp.timeScale - 0.5);
+            speedTxt.innerHTML = comp.timeScale + 'x';
+        }
+    });
+    btn2X.addEventListener('touchend', function () {
+        if (comp) {
+            comp.timeScale = Math.min(4, comp.timeScale + 0.5);
+            speedTxt.innerHTML = comp.timeScale + 'x';
+        }
+    });
+
+    var stats = new Stats();
+    document.body.appendChild(stats.dom);
+
+    var comp;
+    var scene = new THREE.Scene();
+    var renderer = new THREE.WebGLRenderer();
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    document.body.appendChild(renderer.domElement);
+
+    AEP.global.lockWidth = true;
+
+    var paths = ['solo/data.json'];
+
+    AEP.loadQueue(paths, function (num) {
+        // console.log(Math.floor(num * 100) + '%');
+        loadTxt.innerHTML = Math.floor(num * 100) + '%';
+    }, function (data) {
+        loadTxt.style.display = 'none';
+
+        comp = new AEP.Tanimation(data['data.json'], {
+            path: 'solo/',
+            assets: data,
+            loop: true,
+            onStart: function () {
+                console.log('start');
+                // if(this.isReverse)this.reverse(this.totalTime);
+            },
+            onEnd: function () {
+                console.log('end');
+                // if(!this.isReverse)this.play(0);
+            },
+            onUpdate: function (delta) {
+                stats.update();
+                renderer.render(scene, comp.activeCamera);
+                bar.style.width = comp.curTime / comp.totalTime * 100 + '%';
+            },
+            // onFrameUpdate: function () {
+            //     renderer.render(scene, comp.activeCamera);
+            //     bar.style.width = comp.curTime / comp.totalTime * 100 + '%';
+            // }
+        });
+        // comp.assetsPath = 'coke/main/';
+        // comp.isLoop = true;
+
+        scene.add(comp.el);
+        // comp.play();
+        comp.seek(30);
+        // renderer.render(scene, comp.activeCamera);
+        resize();
+
+        var cc = comp.findByRef(['comp_1']);
+        comp.solo(cc[0]);
+        // comp.playSolo();
+        // comp.pauseSolo();
+
+        // comp.seek(30);
+        // var dd = comp.findByName('out5.png')[0].close();
+        // console.log(cc, dd);
+        // dd.onAdd = function () {
+        //     console.log('onAdd');
+        // }
+        // dd.onRemove = function () {
+        //     console.log('onRemove');
+        // }
+    });
+
+
+    window.addEventListener('resize', function () {
+        resize();
+    });
+
+    var gamma = 0;
+    window.addEventListener('deviceorientation', function (event) {
+        gamma = -event.gamma * 2;
+    }, false);
+
+    function resize() {
+        if (comp.activeCamera) {
+            comp.setSize(window.innerWidth, window.innerHeight);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.render(scene, comp.activeCamera);
+        }
+    }
+
+</script>
+
+
+</body>
