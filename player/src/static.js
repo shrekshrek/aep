@@ -1,6 +1,6 @@
 var global = {
     author: 'shrek.wang - https://github.com/shrekshrek',
-    version: '0.9.0',
+    version: '0.10.0',
     loadOrder: 0,
     alphaTest: 0.05,
     curveSegments: 10,

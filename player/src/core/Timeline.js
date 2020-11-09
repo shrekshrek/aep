@@ -46,7 +46,7 @@ function globalUpdate() {
     tempSoloTimelines = soloTimelines.slice(0);
     for (var j = 0; j < _len2; j++) {
         var _soloTimeline = tempSoloTimelines[j];
-        if (_soloTimeline && _soloTimeline.isSoloPlaying && !_soloTimeline._updateSoloTime(_step)) _soloTimeline.pauseSolo();
+        if (_soloTimeline && _soloTimeline.isSoloPlaying) _soloTimeline._updateSoloTime(_step);
     }
 
     requestFrame(globalUpdate);
@@ -100,7 +100,7 @@ Object.assign(Timeline.prototype, {
         this.curTime = _curTime;
 
         var _fid = fixed(this.curTime / this._frameStep);
-        this.seekFrame(_fid + this.inFrame);
+        this._seekFrame(_fid + this.inFrame);
         if (!this.isSeek && this.onUpdate) this.onUpdate(time);
 
         if (this.lastTime < this.curTime) {
@@ -128,9 +128,9 @@ Object.assign(Timeline.prototype, {
 
     _updateSoloTime: function (time) {
         time = (this.isReverse ? -1 : 1) * time * this.timeScale;
-        this.soloFrame(time / this._frameStep);
-        if (!this.isSeek && !this.isPlaying && this.onUpdate) this.onUpdate(time);
-        return true;
+        for (var i = 0, l = this.soloItems.length; i < l; i++) {
+            this.soloItems[i]._soloFrame(time / this._frameStep);
+        }
     },
 
     getFrameRate: function () {

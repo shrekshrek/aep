@@ -81,65 +81,44 @@ Object.assign(Layer.prototype, {
         return this;
     },
 
-    seekFrame: function (frameId) {
+    _seekFrame: function (frameId) {
         if (this.isClosed) return;
 
         if (this.curFrame === frameId) return;
         this.curFrame = frameId;
 
         if (this.curFrame >= this.inFrame && this.curFrame < this.outFrame) {
-            if (!(this.parent && this.parent.isSolo)) {
-                if (!this.visible) {
-                    this.visible = true;
-                    this._addSelf();
-                    this._update(this.curFrame, true);
-                } else {
-                    this._update(this.curFrame, false);
-                }
+            if (!this.visible) {
+                this.visible = true;
+                this._addSelf();
+                this._update(this.curFrame, true);
+            } else {
+                this._update(this.curFrame, false);
             }
 
-            if (this.layers) {
+            if (this.layers && !this.isSolo) {
                 for (var i = 0, l = this.layers.length; i < l; i++) {
                     var _layer = this.layers[i];
-                    if (_layer) _layer.seekFrame((this.curFrame - this.startFrame) / this.scaleRate);
+                    if (_layer) _layer._seekFrame((this.curFrame - this.startFrame) / this.scaleRate);
                 }
             }
         } else {
-            if (!(this.parent && this.parent.isSolo)) {
-                if (this.visible) {
-                    this.visible = false;
-                    this._removeSelf();
-                }
+            if (this.visible) {
+                this.visible = false;
+                this._removeSelf();
             }
         }
     },
 
-    soloFrame: function (step) {
-        if (this.curFrame >= this.inFrame && this.curFrame < this.outFrame) {
-            if (this.parent && this.parent.isSolo) {
-                if (!this.visible) {
-                    this.visible = true;
-                    this._addSelf();
-                    this.curSoloFrame = this.parent.workStart + Math.max(0, (this.curFrame - this.parent.workStart) % this.parent.workDuration);
-                    this._update(this.curSoloFrame, true);
-                } else {
-                    var _fid = fixed((this.curSoloFrame + step - this.parent.workStart) % this.parent.workDuration);
-                    this.curSoloFrame = this.parent.workStart + _fid + (_fid < 0 ? this.parent.workDuration : 0);
-                    this._update(this.curSoloFrame, false);
-                }
-            }
+    _soloFrame: function (step) {
+        if (this.visible) {
+            var _fid = fixed((this.curSoloFrame + step - this.workStart) % this.workDuration);
+            this.curSoloFrame = this.workStart + _fid + (_fid < 0 ? this.workDuration : 0);
 
-            if (this.layers) {
+            if (this.layers && this.isSolo) {
                 for (var i = 0, l = this.layers.length; i < l; i++) {
                     var _layer = this.layers[i];
-                    if (_layer) _layer.soloFrame(step);
-                }
-            }
-        } else {
-            if (this.parent && this.parent.isSolo) {
-                if (this.visible) {
-                    this.visible = false;
-                    this._removeSelf();
+                    if (_layer) _layer._seekFrame(this.curSoloFrame / this.scaleRate);
                 }
             }
         }
