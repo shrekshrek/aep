@@ -195,7 +195,9 @@
         // renderer.render(scene, comp.activeCamera);
         resize();
 
-        var cc = comp.findByRef(['comp_1']);
+        // comp.setFrameRate(1);
+
+        var cc = comp.findByRef(['comp_1']);console.log(cc);
         comp.solo(cc[0]);
         // comp.playSolo();
         // comp.pauseSolo();

@@ -78,7 +78,6 @@ function Timeline(data, params) {
     this.onStart = params.onStart || null;
     this.onEnd = params.onEnd || null;
     this.onUpdate = params.onUpdate || null;
-    this.onFrameUpdate = params.onFrameUpdate || null;
 }
 
 
@@ -131,6 +130,7 @@ Object.assign(Timeline.prototype, {
         for (var i = 0, l = this.soloItems.length; i < l; i++) {
             this.soloItems[i]._soloFrame(time / this._frameStep);
         }
+        if (!this.isPlaying && !this.isSeek && this.onUpdate) this.onUpdate(time);
     },
 
     getFrameRate: function () {
@@ -237,7 +237,7 @@ Object.assign(Timeline.prototype, {
     },
 
     playSolo: function () {
-        if (this.isSoloPlaying) return;
+        if (this.isSoloPlaying || !this.soloItems) return;
         this.isSoloPlaying = true;
         this._addSoloTimeline();
     },

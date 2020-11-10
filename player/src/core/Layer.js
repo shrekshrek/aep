@@ -61,8 +61,6 @@ function Layer(data, parent) {
     this._x = null;
     this._y = null;
     this._z = null;
-
-    this.onFrameUpdate = null;
 }
 
 Object.assign(Layer.prototype, {
