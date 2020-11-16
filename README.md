@@ -36,16 +36,18 @@ player.js 播放器，使用方法可以参考在线demo: https://shrek.imdevsh.
 
 # API
 
-全局静态方法： 
+全局静态方法：  
 ```js
 AEP.loadQueue(source:array, progress:function, complete:function);
 ```
-source是包含json和图片地址数组
+source是包含json和图片地址数组  
+
 ```js
 AEP.loadFullJson(json:string, base:string, progress:function, complete:function, percent:number);
 ```
-json是动画json文件地址，base是素材所在相对目录地址，最后的percent是加载素材比例，不用全部加载，一般预载第一个画面需要使用的图片量就够了，后面会在进入场景后自动加载完成。
-以上是两个预加载素材的方法，需要至少预载了json后再实例化AEP.Tanimation使用
+json是动画json文件地址，base是素材所在相对目录地址，最后的percent是加载素材比例，不用全部加载，一般预载第一个画面需要使用的图片量就够了，后面会在进入场景后自动加载完成。  
+
+以上是两个预加载素材的方法，需要至少预载了json后再实例化AEP.Tanimation使用。  
 
 全局属性： 
 ```js
