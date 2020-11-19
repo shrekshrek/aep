@@ -31,7 +31,9 @@ https://shrek.imdevsh.com/show/tmall/
 
 aexporter.jsx 放入AE安装根目录Scripts文件夹下，然后在ae命令中就会多一个aexporter命令了，打开需要导出的场景，然后运行命令即可，命令会把当前场景的图片素材和场景信息json导出到当前打开工程文件的目录下。
 
-player.js 播放器，使用方法可以参考在线demo: https://shrek.imdevsh.com/demo/aep/aep&bokeh.html
+player.js 播放器，使用方法可以参考在线demo: https://shrek.imdevsh.com/demo/aep/aep&bokeh.html  
+
+AE动画制作时务必每个层都打开3d属性，目前仅支持图片image，纯色solid。不支持滤镜，曲线图形，遮罩。支持循环动画，循环区间为comp预览时间段，输出后使用solo命令设置即可，具体详情请查看demo范例代码。  
 
 
 # API
