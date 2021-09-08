@@ -178,6 +178,13 @@ var sourceHelper = function () {
         helperComp.remove();
         currentExportingImage += 1;
         renderManager.updateBar(currentExportingImage / imageSources.length);
+
+        //修正高版本ae导出时卡住的bug，导出每张图片间增加一个强制0.5s延时
+        var _now = Date.now();
+        while (true) {
+            if (Date.now() - _now > 500) break;
+        }
+
         saveNextImage();
     }
 
