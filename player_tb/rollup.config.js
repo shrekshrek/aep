@@ -8,7 +8,7 @@ export default [{
         {
             format: 'umd',
             name: 'AEP',
-            file: 'build/aep.js'
+            file: 'build/aep.tb.js'
         }
     ],
     banner: '/*!\n * GIT: https://github.com/shrekshrek/aep\n **/\n',
@@ -20,7 +20,7 @@ export default [{
         {
             format: 'umd',
             name: 'AEP',
-            file: 'build/aep.min.js',
+            file: 'build/aep.tb.min.js',
         }
     ],
     plugins: [
