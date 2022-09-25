@@ -17,8 +17,7 @@
         height: 0,
         frameSegments: 10,
         canvas: null,
-        THREE: null,
-        requestFrame: null
+        THREE: null
     };
 
     //替换成淘宝小程序版
@@ -108,7 +107,6 @@
         global.canvas = canvas;
         global.width = canvas.width;
         global.height = canvas.height;
-        global.requestFrame = canvas.requestAnimationFrame;
     }
 
     // --------------------------------------------------------------------全局update
@@ -154,7 +152,7 @@
             if (_soloTimeline && _soloTimeline.isSoloPlaying) _soloTimeline._updateSoloTime(_step);
         }
 
-        global.requestFrame(globalUpdate);
+        global.canvas.requestAnimationFrame(globalUpdate);
     }
 
 
@@ -307,7 +305,7 @@
             if (!isUpdating) {
                 lastTime = now();
                 isUpdating = true;
-                global.requestFrame(globalUpdate);
+                global.canvas.requestAnimationFrame(globalUpdate);
             }
         },
 
@@ -359,7 +357,7 @@
             if (!isUpdating) {
                 lastTime = now();
                 isUpdating = true;
-                global.requestFrame(globalUpdate);
+                global.canvas.requestAnimationFrame(globalUpdate);
             }
         },
 

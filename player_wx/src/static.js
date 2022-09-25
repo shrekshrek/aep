@@ -11,8 +11,7 @@ var global = {
     height: 0,
     frameSegments: 10,
     canvas: null,
-    THREE: null,
-    requestFrame: null
+    THREE: null
 };
 
 //替换成淘宝小程序版
@@ -102,7 +101,6 @@ function bindScopedCanvas(canvas) {
     global.canvas = canvas;
     global.width = canvas.width;
     global.height = canvas.height;
-    global.requestFrame = canvas.requestAnimationFrame;
 }
 
 

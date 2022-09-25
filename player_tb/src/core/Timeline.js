@@ -43,7 +43,7 @@ function globalUpdate() {
         if (_soloTimeline && _soloTimeline.isSoloPlaying) _soloTimeline._updateSoloTime(_step);
     }
 
-    global.requestFrame(globalUpdate);
+    global.canvas.requestAnimationFrame(globalUpdate);
 }
 
 
@@ -196,7 +196,7 @@ Object.assign(Timeline.prototype, {
         if (!isUpdating) {
             lastTime = now();
             isUpdating = true;
-            global.requestFrame(globalUpdate);
+            global.canvas.requestAnimationFrame(globalUpdate);
         }
     },
 
@@ -248,7 +248,7 @@ Object.assign(Timeline.prototype, {
         if (!isUpdating) {
             lastTime = now();
             isUpdating = true;
-            global.requestFrame(globalUpdate);
+            global.canvas.requestAnimationFrame(globalUpdate);
         }
     },
 

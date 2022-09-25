@@ -17,24 +17,34 @@
         height: 0,
         frameSegments: 10,
         canvas: null,
-        context: null,
-        THREE: null,
-        requestFrame: null
+        THREE: null
     };
 
     //替换成淘宝小程序版
     function loadJson(url, callback) {
-        my.request({
+        // my.request({
+        //     url: url,
+        //     success(res) {
+        //         callback(res.data);
+        //     }
+        // })
+
+        my.downloadFile({
             url: url,
-            success(res) {
-                callback(res.data);
+            success({apFilePath}) {
+                my.getFileSystemManager().readFile({
+                    filePath: apFilePath,
+                    success(res) {
+                        callback(JSON.parse(res.data));
+                    }
+                });
             }
         });
     }
 
     //替换成淘宝小程序版
     function loadImg(url, callback, param) {
-        var _img = global.context.createImage();
+        var _img = global.canvas.createImage();
         _img.onload = _img.onerror = function () {
             callback(_img, param);
         };
@@ -107,10 +117,8 @@
 
     function bindScopedCanvas(canvas) {
         global.canvas = canvas;
-        global.context = canvas.getContext('webgl');
         global.width = canvas.width;
         global.height = canvas.height;
-        global.requestFrame = canvas.requestAnimationFrame;
     }
 
     // --------------------------------------------------------------------全局update
@@ -156,7 +164,7 @@
             if (_soloTimeline && _soloTimeline.isSoloPlaying) _soloTimeline._updateSoloTime(_step);
         }
 
-        global.requestFrame(globalUpdate);
+        global.canvas.requestAnimationFrame(globalUpdate);
     }
 
 
@@ -309,7 +317,7 @@
             if (!isUpdating) {
                 lastTime = now();
                 isUpdating = true;
-                global.requestFrame(globalUpdate);
+                global.canvas.requestAnimationFrame(globalUpdate);
             }
         },
 
@@ -361,7 +369,7 @@
             if (!isUpdating) {
                 lastTime = now();
                 isUpdating = true;
-                global.requestFrame(globalUpdate);
+                global.canvas.requestAnimationFrame(globalUpdate);
             }
         },
 
